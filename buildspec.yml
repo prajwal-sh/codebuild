@@ -16,7 +16,7 @@ phases:
       - git rev-parse HEAD
       
       - git config pull.rebase false
-      - git pull
+      - git pull origin main
       - git status
       - git submodule init
       - git submodule update --recursive

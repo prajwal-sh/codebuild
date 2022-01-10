@@ -11,9 +11,10 @@ phases:
       # - git submodule init
       # - git submodule update --recursive --depth 10 -j 8
       # - git remote prune origin
+      - git checkout main
       - git status
       - git rev-parse head
-      - git checkout dev
+      
       - git config pull.rebase false
       - git pull
       - git status

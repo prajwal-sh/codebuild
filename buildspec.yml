@@ -1,0 +1,34 @@
+version: 0.2
+
+env:
+  variables:
+    resourcetier: dev
+  
+
+phases:
+  install:
+    commands:
+      # - git submodule init
+      # - git submodule update --recursive --depth 10 -j 8
+      # - git remote prune origin
+      - git status
+      - git rev-parse head
+      - git checkout dev
+      - git config pull.rebase false
+      - git pull
+      - git status
+      - git submodule init
+      - git submodule update --recursive
+      # - git config pull.rebase true
+      - ./gitpullrecursive --init-all
+      - source ./update_vars.sh --verbose --codebuild --resourcetier $resourcetier
+      - ./install-packages
+      - ./init/init
+  build:
+    commands:
+      - echo '...replace with real build commands...'
+
+
+
+# batch:
+#   fast-fail: false

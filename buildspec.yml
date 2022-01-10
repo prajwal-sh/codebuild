@@ -13,7 +13,7 @@ phases:
       # - git remote prune origin
       - git checkout main
       - git status
-      - git rev-parse head
+      - git rev-parse --short HEAD
       
       - git config pull.rebase false
       - git pull

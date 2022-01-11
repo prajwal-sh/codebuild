@@ -3,33 +3,35 @@ version: 0.2
 env:
   variables:
     resourcetier: dev
-  
+#  parameter-store:
+ #   onsite_public_ip: "/firehawk/resourcetier/$resourcetier/onsite_public_ip"
 
 phases:
+  pre_build:
+    commands:
+      - python3 -m pip install --user --upgrade pip
+      - python3 -m pip install ansible boto3 botocore
   install:
     commands:
-      # - git submodule init
-      # - git submodule update --recursive --depth 10 -j 8
-      # - git remote prune origin
-      - git checkout main
       - git status
-      - git rev-parse HEAD
-      
-      - git config pull.rebase false
-      - git pull codebuild main
-      - git status
-      - git submodule init
-      - git submodule update --recursive
-      # - git config pull.rebase true
       - ./gitpullrecursive --init-all
-      - source ./update_vars.sh --verbose --codebuild --resourcetier $resourcetier
+      - source ./update_vars.sh --codebuild --resourcetier $resourcetier
       - ./install-packages
       - ./init/init
-  build:
-    commands:
-      - echo '...replace with real build commands...'
-
-
+      - source ./update_vars.sh --codebuild --resourcetier $resourcetier
+      # - ./deploy/packer-firehawk-amis/modules/firehawk-base-ami/build.sh
+      - source ./update_vars.sh --codebuild --resourcetier $resourcetier
+      - ls ./deploy
+      # - ansible --version
+      - ./build.sh
+  # build:
+  #   commands:
+  #     - source ./update_vars.sh --codebuild --resourcetier $resourcetier
+  #     - cd deploy/packer-firehawk-amis/modules/firehawk-base-ami
+  #     - ./build.sh
+artifacts:
+  files:
+    - '**/*'
 
 # batch:
 #   fast-fail: false

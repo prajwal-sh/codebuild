@@ -25,7 +25,7 @@ phases:
 #      - source ./update_vars.sh --codebuild --resourcetier $resourcetier
 #      - ls ./deploy
 #       - ansible --version
-       - codebuild-breakpoint
+       - chmod +x build.sh
        - ./build.sh
   # build:
   #   commands:
